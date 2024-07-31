@@ -15,6 +15,7 @@ int main(void)
 	/* ---------------- LOGGING ---------------- */
 
 	logger = iniciar_logger();
+	log_info(logger, "Hola! Soy un Log");
 
 	// Usando el logger creado previamente
 	// Escribi: "Hola! Soy un log"
@@ -23,7 +24,8 @@ int main(void)
 	/* ---------------- ARCHIVOS DE CONFIGURACION ---------------- */
 
 	config = iniciar_config();
-
+	config = config_create()
+	config_get_string_value(config, );
 	// Usando el config creado previamente, leemos los valores del config y los 
 	// dejamos en las variables 'ip', 'puerto' y 'valor'
 
@@ -50,6 +52,7 @@ int main(void)
 
 	/*---------------------------------------------------PARTE 5-------------------------------------------------------------*/
 	// Proximamente
+	log_destroy(logger);
 }
 
 t_log* iniciar_logger(void)
