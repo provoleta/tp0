@@ -24,7 +24,7 @@ int main(void)
 
 	ip = config_get_string_value(config, "IP");
 	puerto = config_get_string_value(config, "PUERTO");
-	valor = config_get_string_value(config, "clave");
+	valor = config_get_string_value(config, "CLAVE");
 
 	log_info(logger, "Lei la ip %s y puerto %s\n", ip, puerto);
 
@@ -38,9 +38,10 @@ int main(void)
 	// ADVERTENCIA: Antes de continuar, tenemos que asegurarnos que el servidor esté corriendo para poder conectarnos a él
 
 	// Creamos una conexión hacia el servidor
-	// conexion = crear_conexion(ip, puerto);
+	conexion = crear_conexion(ip, puerto);
 
 	// Enviamos al servidor el valor de CLAVE como mensaje
+	enviar_mensaje(valor, conexion);
 
 	// Armamos y enviamos el paquete
 	paquete(conexion);
@@ -77,16 +78,21 @@ t_config* iniciar_config(void)
 void leer_consola(t_log* logger)
 {
 	char* leido;
-
-	// La primera te la dejo de yapa
-	leido = readline("> ");
-
-	// El resto, las vamos leyendo y logueando hasta recibir un string vacío
-
-
-	// ¡No te olvides de liberar las lineas antes de regresar!
-
+	while(1){
+		leido = readline("> ");
+		if (leido) {
+			add_history(leido);
+		}
+		if (!strncmp(leido, "", 4)) {
+			free(leido);
+			break;
+		}
+		printf("%s\n", leido);
+		free(leido);
+	}
+	return 0;
 }
+
 
 void paquete(int conexion)
 {
