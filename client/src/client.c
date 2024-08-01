@@ -15,21 +15,18 @@ int main(void)
 	/* ---------------- LOGGING ---------------- */
 
 	logger = iniciar_logger();
+
 	log_info(logger, "Hola! Soy un Log");
-
-	// Usando el logger creado previamente
-	// Escribi: "Hola! Soy un log"
-
 
 	/* ---------------- ARCHIVOS DE CONFIGURACION ---------------- */
 
 	config = iniciar_config();
-	config = config_create()
-	config_get_string_value(config, );
-	// Usando el config creado previamente, leemos los valores del config y los 
-	// dejamos en las variables 'ip', 'puerto' y 'valor'
 
-	// Loggeamos el valor de config
+	ip = config_get_string_value(config, "IP");
+	puerto = config_get_string_value(config, "PUERTO");
+	valor = config_get_string_value(config, "clave");
+
+	log_info(logger, "Lei la ip %s y puerto %s\n", ip, puerto);
 
 
 	/* ---------------- LEER DE CONSOLA ---------------- */
@@ -41,7 +38,7 @@ int main(void)
 	// ADVERTENCIA: Antes de continuar, tenemos que asegurarnos que el servidor esté corriendo para poder conectarnos a él
 
 	// Creamos una conexión hacia el servidor
-	conexion = crear_conexion(ip, puerto);
+	// conexion = crear_conexion(ip, puerto);
 
 	// Enviamos al servidor el valor de CLAVE como mensaje
 
@@ -52,20 +49,28 @@ int main(void)
 
 	/*---------------------------------------------------PARTE 5-------------------------------------------------------------*/
 	// Proximamente
-	log_destroy(logger);
+
 }
 
 t_log* iniciar_logger(void)
 {
 	t_log* nuevo_logger;
-
+	nuevo_logger = log_create("tp0.log", "TP0", 1, LOG_LEVEL_INFO);
+	if(nuevo_logger == NULL) {
+		printf("No pude crear el logger.");
+		exit(1);
+	}
 	return nuevo_logger;
 }
 
 t_config* iniciar_config(void)
 {
 	t_config* nuevo_config;
-
+	nuevo_config = config_create("./cliente.config");
+	if(nuevo_config == NULL) {
+		printf("No pude leer el config");
+		exit(2);
+	}
 	return nuevo_config;
 }
 
@@ -98,6 +103,13 @@ void paquete(int conexion)
 
 void terminar_programa(int conexion, t_log* logger, t_config* config)
 {
+	if(logger != NULL) {
+		log_destroy(logger);
+	}
+
+	if(config != NULL) {
+		config_destroy(config);
+	}
 	/* Y por ultimo, hay que liberar lo que utilizamos (conexion, log y config) 
 	  con las funciones de las commons y del TP mencionadas en el enunciado */
 }
