@@ -15,7 +15,6 @@ int main(void)
 	/* ---------------- LOGGING ---------------- */
 
 	logger = iniciar_logger();
-
 	log_info(logger, "Hola! Soy un Log");
 
 	/* ---------------- ARCHIVOS DE CONFIGURACION ---------------- */
@@ -34,7 +33,6 @@ int main(void)
 	leer_consola(logger);
 
 	/*---------------------------------------------------PARTE 3-------------------------------------------------------------*/
-
 	// ADVERTENCIA: Antes de continuar, tenemos que asegurarnos que el servidor esté corriendo para poder conectarnos a él
 
 	// Creamos una conexión hacia el servidor
@@ -47,10 +45,6 @@ int main(void)
 	paquete(conexion);
 
 	terminar_programa(conexion, logger, config);
-
-	/*---------------------------------------------------PARTE 5-------------------------------------------------------------*/
-	// Proximamente
-
 }
 
 t_log* iniciar_logger(void)
@@ -116,7 +110,6 @@ void paquete(int conexion)
 	enviar_paquete(paquete, conexion);
 	eliminar_paquete(paquete);
 	// ¡No te olvides de liberar las líneas y el paquete antes de regresar!
-	
 }
 
 void terminar_programa(int conexion, t_log* logger, t_config* config)
@@ -128,6 +121,8 @@ void terminar_programa(int conexion, t_log* logger, t_config* config)
 	if(config != NULL) {
 		config_destroy(config);
 	}
+
+	liberar_conexion(conexion);
 	/* Y por ultimo, hay que liberar lo que utilizamos (conexion, log y config) 
 	  con las funciones de las commons y del TP mencionadas en el enunciado */
 }
