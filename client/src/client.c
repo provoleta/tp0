@@ -90,7 +90,6 @@ void leer_consola(t_log* logger)
 		printf("%s\n", leido);
 		free(leido);
 	}
-	return 0;
 }
 
 
@@ -98,11 +97,24 @@ void paquete(int conexion)
 {
 	// Ahora toca lo divertido!
 	char* leido;
-	t_paquete* paquete;
+	t_paquete* paquete = crear_paquete();
 
 	// Leemos y esta vez agregamos las lineas al paquete
-
-
+	while(1){
+		leido = readline("> ");
+		if (leido) {
+			add_history(leido);
+			agregar_a_paquete(paquete, leido, sizeof(leido));
+		}
+		if (!strncmp(leido, "", 4)) {
+			free(leido);
+			break;
+		}
+		printf("%s\n", leido);
+		free(leido);
+	}
+	enviar_paquete(paquete, conexion);
+	eliminar_paquete(paquete);
 	// ¡No te olvides de liberar las líneas y el paquete antes de regresar!
 	
 }
